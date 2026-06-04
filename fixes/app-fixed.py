@@ -12,7 +12,13 @@ import uvicorn
 from backend.database import engine, SessionLocal, Base, get_db
 from backend.models import User
 
+from database import engine, Base  # Make sure Base and engine are imported
+
 # Creates tables when app starts
+Base.metadata.create_all(bind=engine)
+
+
+# This magic line forces SQLAlchemy to create all tables (including 'users') on startup
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Secure API - SQL Injection Fixed")
