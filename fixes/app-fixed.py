@@ -282,6 +282,41 @@ def read_root():
         "status": "✅ PROTECTED AGAINST SQL INJECTION ✅"
     }
 
+# ADDITION OF A REGISTRATION ENDPOINT TO SECURE SIDE
+from pydantic import BaseModel
+
+# Quick inline input structure definition
+class RegisterInput(BaseModel):
+    username: str
+    email: str
+    password: str
+
+@app.post("/register")
+def register_user_secure(payload: RegisterInput, db: Session = Depends(get_db)):
+    try:
+        # Check if username already exists to prevent integrity errors
+        existing_user = db.query(User).filter(User.username == payload.username).first()
+        if existing_user:
+            return {"success": False, "message": "Username is already taken."}
+
+        # Safe insertion using SQLAlchemy ORM (Parameterized underneath)
+        new_user = User(
+            username=payload.username,
+            email=payload.email,
+            password=payload.password
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+
+        return {
+            "success": True,
+            "user_id": new_user.id
+        }
+    except Exception as e:
+        db.rollback()
+        return {"success": False, "message": f"Database Error: {str(e)}"}
+
 # Run the app
 
 if __name__ == "__main__":
