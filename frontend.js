@@ -1,5 +1,5 @@
- const VULNERABLE_API = 'http://localhost:8000';
- const SECURE_API = 'http://localhost:8001';
+ const VULNERABLE_API = 'https://sqlinjection-hackedversion-fixedversion-1.onrender.com';
+ const SECURE_API = 'https://secure-sql-vulnerable.onrender.com';
 
         // Checking API connections
         async function checkAPIs() {
