@@ -150,6 +150,36 @@
             </div>
         </div>
 
+        <div class="panel system-setup" style="margin-top: 2rem; max-width: 100%;">
+            <h2>🔐 Database Initialization Tool</h2>
+            <div class="explanation" style="margin-bottom: 1.5rem;">
+                💡 Populate your cloud SQLite file to test data leak exploits (like <code>1 OR 1=1</code>).
+            </div>
+            
+            <form onsubmit="registerUser(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) gap(1rem); align-items: end;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Username</label>
+                    <input type="text" id="reg-username" placeholder="e.g., hacker_hacked" required style="width: 100%;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Email</label>
+                    <input type="email" id="reg-email" placeholder="e.g., user@example.com" required style="width: 100%;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Password</label>
+                    <input type="password" id="reg-password" placeholder="••••••••" required style="width: 100%;">
+                </div>
+                <div>
+                    <button type="submit" class="attack-btn" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); color: #0a0f1d; border: none; font-weight: bold; padding: 0.8rem 1.5rem; border-radius: 4px; cursor: pointer; width: 100%;">
+                        ➕ Register User
+                    </button>
+                </div>
+            </form>
+            <div id="reg-result" class="result-box" style="margin-top: 1.5rem; display: none;"></div>
+        </div>
+
+
+
         <!-- COMPARISON TABLE -->
         <div class="comparison">
             <h2>🔄 Vulnerability Comparison</h2>

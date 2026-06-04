@@ -224,3 +224,43 @@
         // Checking the APIs on load
         checkAPIs();
         setInterval(checkAPIs, 5000);
+
+        // Register User Functionality
+async function registerUser(event) {
+    event.preventDefault();
+    const username = document.getElementById('reg-username').value;
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-password').value;
+    const resultEl = document.getElementById('reg-result');
+
+    resultEl.style.display = 'block';
+    resultEl.className = 'result-box pending';
+    resultEl.innerHTML = '<div class="loading"></div> Writing to database...';
+
+    try {
+        // We route registrations through the Secure API instance to ensure safety
+        const response = await fetch(`${SECURE_API}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, email, password })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            resultEl.className = 'result-box success';
+            resultEl.innerHTML = `<strong>✓ User Registered successfully!</strong> Created user ID: <code>${data.user_id}</code>. You can now use this account to test logins or run lookups.`;
+            // Clear inputs
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-email').value = '';
+            document.getElementById('reg-password').value = '';
+        } else {
+            resultEl.className = 'result-box error';
+            resultEl.innerHTML = `<strong>Registration Failed:</strong> ${data.message}`;
+        }
+    } catch (error) {
+        resultEl.className = 'result-box error';
+        resultEl.innerHTML = `<strong>Error sending data to backend:</strong> ${error.message}`;
+    }
+}
