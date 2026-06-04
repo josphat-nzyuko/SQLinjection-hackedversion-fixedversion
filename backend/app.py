@@ -203,6 +203,40 @@ def read_root():
         "status": "🚨 INTENTIONALLY VULNERABLE FOR EDUCATIONAL PURPOSES 🚨"
     }
 
+# ADDITION OF A REGISTRATION ENDPOINT TO VULNERABLE API
+from pydantic import BaseModel
+
+class RegisterInput(BaseModel):
+    username: str
+    email: str
+    password: str
+
+@app.post("/register")
+def register_user_vulnerable(payload: RegisterInput, db: Session = Depends(get_db)):
+    try:
+        # Check if username exists
+        existing_user = db.query(User).filter(User.username == payload.username).first()
+        if existing_user:
+            return {"success": False, "message": "Username already exists"}
+
+        # Insert user row
+        new_user = User(
+            username=payload.username,
+            email=payload.email,
+            password=payload.password
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+
+        return {
+            "success": True,
+            "user_id": new_user.id
+        }
+    except Exception as e:
+        db.rollback()
+        return {"success": False, "message": f"Database Error: {str(e)}"}
+
 # Run the app
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

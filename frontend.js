@@ -225,7 +225,7 @@
         checkAPIs();
         setInterval(checkAPIs, 5000);
 
-        // Register User Functionality
+        // Register User on BOTH APIs simultaneously
 async function registerUser(event) {
     event.preventDefault();
     const username = document.getElementById('reg-username').value;
@@ -235,32 +235,41 @@ async function registerUser(event) {
 
     resultEl.style.display = 'block';
     resultEl.className = 'result-box pending';
-    resultEl.innerHTML = '<div class="loading"></div> Writing to database...';
+    resultEl.innerHTML = '<div class="loading"></div> Synchronizing across both API databases...';
 
     try {
-        // We route registrations through the Secure API instance to ensure safety
-        const response = await fetch(`${SECURE_API}/register`, {
+        // Fire both fetch operations in parallel
+        const vulnRegister = fetch(`${VULNERABLE_API}/register`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password })
-        });
-        const data = await response.json();
+        }).then(res => res.json());
 
-        if (data.success) {
+        const secRegister = fetch(`${SECURE_API}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password })
+        }).then(res => res.json());
+
+        // Wait for both cloud services to respond
+        const [vulnData, secData] = await Promise.all([vulnRegister, secRegister]);
+
+        if (vulnData.success && secData.success) {
             resultEl.className = 'result-box success';
-            resultEl.innerHTML = `<strong>✓ User Registered successfully!</strong> Created user ID: <code>${data.user_id}</code>. You can now use this account to test logins or run lookups.`;
+            resultEl.innerHTML = `<strong>✓ Synchronization Successful!</strong> User <code>${username}</code> has been written to both the Vulnerable and Secure database files. Go ahead and test your payloads!`;
+            
             // Clear inputs
             document.getElementById('reg-username').value = '';
             document.getElementById('reg-email').value = '';
             document.getElementById('reg-password').value = '';
         } else {
             resultEl.className = 'result-box error';
-            resultEl.innerHTML = `<strong>Registration Failed:</strong> ${data.message}`;
+            resultEl.innerHTML = `<strong>Sync Partial Failure:</strong><br>
+                                   Vulnerable API: ${vulnData.message || '✓ Success'}<br>
+                                   Secure API: ${secData.message || '✓ Success'}`;
         }
     } catch (error) {
         resultEl.className = 'result-box error';
-        resultEl.innerHTML = `<strong>Error sending data to backend:</strong> ${error.message}`;
+        resultEl.innerHTML = `<strong>Network Error:</strong> Unable to communicate with one or both servers: ${error.message}`;
     }
 }
