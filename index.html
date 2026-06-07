@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>🔓 SQL Injection Vulnerability Demonstrator</h1>
+            <h1>SQL Injection Vulnerability Demonstrator</h1>
             <p>Learning how SQL injection attacks work and how to prevent them</p>
            
         </header>
@@ -20,140 +20,11 @@
             Checking API connection...
         </div>
 
-        <div class="main-content">
-            <!-- VULNERABLE API PANEL -->
-            <div class="panel vulnerable">
-                <h2>
-                    🚨 Vulnerable API
-                    <span class="badge vulnerable">VULNERABLE</span>
-                </h2>
-                
-                <div class="tabs">
-                    <button class="tab active" onclick="switchTab(event, 'vuln-login')">Login Test</button>
-                    <button class="tab" onclick="switchTab(event, 'vuln-lookup')">User Lookup</button>
-                </div>
-
-                <!-- LOGIN TEST TAB -->
-                <div id="vuln-login" class="tab-content active">
-                    <div class="attack-info">
-                        💡 Try these payloads:<br>
-                        • Username: <code>admin' --</code><br>
-                        • Password: <code>anything</code>
-                    </div>
-
-                    <form onsubmit="exploitVulnerableLogin(event)">
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" id="vuln-username" placeholder="Try: admin' --" value="admin' --">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" id="vuln-password" placeholder="Try: anything" value="anything">
-                        </div>
-
-                        <div class="button-group">
-                            <button type="submit" class="attack-btn">🔓 Attempt Login</button>
-                            <button type="button" class="clear-btn" onclick="clearVulnLogin()">Clear</button>
-                        </div>
-                    </form>
-
-                    <div id="vuln-login-query" class="query-display" style="display:none;"></div>
-                    <div id="vuln-login-result" class="result-box"></div>
-                </div>
-
-                <!-- USER LOOKUP TAB -->
-                <div id="vuln-lookup" class="tab-content">
-                    <div class="attack-info">
-                        💡 Try these payloads:<br>
-                        • User ID: <code>1 OR 1=1</code><br>
-                        • This returns ALL users instead of one
-                    </div>
-
-                    <form onsubmit="exploitVulnerableLookup(event)">
-                        <div class="form-group">
-                            <label>User ID</label>
-                            <input type="text" id="vuln-userid" placeholder="Try: 1 OR 1=1" value="1 OR 1=1">
-                        </div>
-
-                        <div class="button-group">
-                            <button type="submit" class="attack-btn">🔓 Lookup Users</button>
-                            <button type="button" class="clear-btn" onclick="clearVulnLookup()">Clear</button>
-                        </div>
-                    </form>
-
-                    <div id="vuln-lookup-query" class="query-display" style="display:none;"></div>
-                    <div id="vuln-lookup-result" class="result-box"></div>
-                </div>
-            </div>
-
-            <!-- SECURE API PANEL -->
-            <div class="panel secure">
-                <h2>
-                    ✅ Secure API
-                    <span class="badge secure">PROTECTED</span>
-                </h2>
-                
-                <div class="tabs">
-                    <button class="tab active" onclick="switchTab(event, 'sec-login')">Login Test</button>
-                    <button class="tab" onclick="switchTab(event, 'sec-lookup')">User Lookup</button>
-                </div>
-
-                <!-- LOGIN TEST TAB -->
-                <div id="sec-login" class="tab-content active">
-                    <div class="explanation">
-                        ✅ Uses parameterized queries - user input is treated as DATA, not CODE
-                    </div>
-
-                    <form onsubmit="exploitSecureLogin(event)">
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" id="sec-username" placeholder="Try: admin' --" value="admin' --">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" id="sec-password" placeholder="Try: anything" value="anything">
-                        </div>
-
-                        <div class="button-group">
-                            <button type="submit" class="attack-btn">🔐 Attempt Login</button>
-                            <button type="button" class="clear-btn" onclick="clearSecLogin()">Clear</button>
-                        </div>
-                    </form>
-
-                    <div id="sec-login-query" class="query-display" style="display:none;"></div>
-                    <div id="sec-login-result" class="result-box"></div>
-                </div>
-
-                <!-- USER LOOKUP TAB -->
-                <div id="sec-lookup" class="tab-content">
-                    <div class="explanation">
-                        ✅ Type validation + Parameterized queries - attacks are rejected
-                    </div>
-
-                    <form onsubmit="exploitSecureLookup(event)">
-                        <div class="form-group">
-                            <label>User ID</label>
-                            <input type="text" id="sec-userid" placeholder="Try: 1 OR 1=1" value="1 OR 1=1">
-                        </div>
-
-                        <div class="button-group">
-                            <button type="submit" class="attack-btn">🔐 Lookup Users</button>
-                            <button type="button" class="clear-btn" onclick="clearSecLookup()">Clear</button>
-                        </div>
-                    </form>
-
-                    <div id="sec-lookup-query" class="query-display" style="display:none;"></div>
-                    <div id="sec-lookup-result" class="result-box"></div>
-                </div>
-            </div>
-        </div>
 
         <div class="panel system-setup" style="margin-top: 2rem; max-width: 100%;">
-            <h2>🔐 Database Initialization Tool</h2>
+            <h2>Database Initialization Tool</h2>
             <div class="explanation" style="margin-bottom: 1.5rem;">
-                💡 Populate your cloud SQLite file to test data leak exploits (like <code>1 OR 1=1</code>).
+                Populate your cloud SQLite file to test data leak exploits (like <code>1 OR 1=1</code>).
             </div>
             
             <form onsubmit="registerUser(event)" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) gap(1rem); align-items: end;">
@@ -171,18 +42,153 @@
                 </div>
                 <div>
                     <button type="submit" class="attack-btn" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); color: #0a0f1d; border: none; font-weight: bold; padding: 0.8rem 1.5rem; border-radius: 4px; cursor: pointer; width: 100%;">
-                        ➕ Register User
+                         Register User
                     </button>
                 </div>
             </form>
             <div id="reg-result" class="result-box" style="margin-top: 1.5rem; display: none;"></div>
         </div>
 
+        <br><br>
+
+
+
+        <div class="main-content">
+            <!-- VULNERABLE API PANEL -->
+            <div class="panel vulnerable">
+                <h2>
+                    Vulnerable API
+                    <span class="badge vulnerable">VULNERABLE</span>
+                </h2>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab(event, 'vuln-login')">Login Test</button>
+                    <button class="tab" onclick="switchTab(event, 'vuln-lookup')">User Lookup</button>
+                </div>
+
+                <!-- LOGIN TEST TAB -->
+                <div id="vuln-login" class="tab-content active">
+                    <div class="attack-info">
+                        Try these payloads:<br>
+                        • Username: <code>admin' --</code><br>
+                        • Password: <code>anything</code>
+                    </div>
+
+                    <form onsubmit="exploitVulnerableLogin(event)">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="vuln-username" placeholder="Try: admin' --" value="admin' --">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="vuln-password" placeholder="Try: anything" value="anything">
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="attack-btn">Attempt Login</button>
+                            <button type="button" class="clear-btn" onclick="clearVulnLogin()">Clear</button>
+                        </div>
+                    </form>
+
+                    <div id="vuln-login-query" class="query-display" style="display:none;"></div>
+                    <div id="vuln-login-result" class="result-box"></div>
+                </div>
+
+                <!-- USER LOOKUP TAB -->
+                <div id="vuln-lookup" class="tab-content">
+                    <div class="attack-info">
+                         Try these payloads:<br>
+                        • User ID: <code>1 OR 1=1</code><br>
+                        • This returns ALL users instead of one
+                    </div>
+
+                    <form onsubmit="exploitVulnerableLookup(event)">
+                        <div class="form-group">
+                            <label>User ID</label>
+                            <input type="text" id="vuln-userid" placeholder="Try: 1 OR 1=1" value="1 OR 1=1">
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="attack-btn">Lookup Users</button>
+                            <button type="button" class="clear-btn" onclick="clearVulnLookup()">Clear</button>
+                        </div>
+                    </form>
+
+                    <div id="vuln-lookup-query" class="query-display" style="display:none;"></div>
+                    <div id="vuln-lookup-result" class="result-box"></div>
+                </div>
+            </div>
+
+            <!-- SECURE API PANEL -->
+            <div class="panel secure">
+                <h2>
+                    Secure API
+                    <span class="badge secure">PROTECTED</span>
+                </h2>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab(event, 'sec-login')">Login Test</button>
+                    <button class="tab" onclick="switchTab(event, 'sec-lookup')">User Lookup</button>
+                </div>
+
+                <!-- LOGIN TEST TAB -->
+                <div id="sec-login" class="tab-content active">
+                    <div class="explanation">
+                        Uses parameterized queries - user input is treated as DATA, not CODE
+                    </div>
+
+                    <form onsubmit="exploitSecureLogin(event)">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="sec-username" placeholder="Try: admin' --" value="admin' --">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="sec-password" placeholder="Try: anything" value="anything">
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="attack-btn">Attempt Login</button>
+                            <button type="button" class="clear-btn" onclick="clearSecLogin()">Clear</button>
+                        </div>
+                    </form>
+
+                    <div id="sec-login-query" class="query-display" style="display:none;"></div>
+                    <div id="sec-login-result" class="result-box"></div>
+                </div>
+
+                <!-- USER LOOKUP TAB -->
+                <div id="sec-lookup" class="tab-content">
+                    <div class="explanation">
+                        Type validation + Parameterized queries - attacks are rejected
+                    </div>
+
+                    <form onsubmit="exploitSecureLookup(event)">
+                        <div class="form-group">
+                            <label>User ID</label>
+                            <input type="text" id="sec-userid" placeholder="Try: 1 OR 1=1" value="1 OR 1=1">
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="attack-btn">Lookup Users</button>
+                            <button type="button" class="clear-btn" onclick="clearSecLookup()">Clear</button>
+                        </div>
+                    </form>
+
+                    <div id="sec-lookup-query" class="query-display" style="display:none;"></div>
+                    <div id="sec-lookup-result" class="result-box"></div>
+                </div>
+            </div>
+        </div>
+
+
 
 
         <!-- COMPARISON TABLE -->
         <div class="comparison">
-            <h2>🔄 Vulnerability Comparison</h2>
+            <h2>Vulnerability Comparison</h2>
             <table class="comparison-table">
                 <thead>
                     <tr>

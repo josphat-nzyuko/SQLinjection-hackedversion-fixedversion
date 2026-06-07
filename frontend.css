@@ -10,6 +10,9 @@
             min-height: 100vh;
             padding: 20px;
             color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
@@ -24,7 +27,12 @@
             margin-bottom: 30px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             border-left: 5px solid #ff6b6b;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
+
+        
 
         header h1 {
             color: #1e3c72;
